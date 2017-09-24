@@ -2,19 +2,9 @@
 ################################################################
 # Zsh initialisation
 ################################################################
-MINIMAL_ZSH_VERSION='439'
-if [[ ${ZSH_VERSION//\./} -lt ${MINIMAL_ZSH_VERSION} ]]; then
 
-    if [[ $(uname -s) = 'SunOS' ]]; then
+operating_system=$(uname --operating-system)
 
-        # Let's try to load Opencsw zsh if present
-        OPENCSW_ZSH="/opt/csw/bin/zsh"
-        export TERMINFO=/opt/csw/share/terminfo
-        [[ -x "${OPENCSW_ZSH}" ]] && exec "${OPENCSW_ZSH}"
-    fi
-
-    return
-fi
 
 ################################################################
 # Configuration
@@ -22,6 +12,7 @@ fi
 
 ## Terminal configuration
 export TERM=xterm-256color
+alias ls="ls --color"
 
 ## Shell configuration
 HISTSIZE=1000000000000000000
@@ -31,6 +22,9 @@ SAVEHIST=${HISTSIZE}
 bindkey "^[d" backward-kill-word
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
+
+bindkey "^[;3C" forward-word
+bindkey "^[;3D" backward-word
 
 ## Theme configuration
 
@@ -72,18 +66,18 @@ PURE_GIT_PULL=0
 # Plugin loading through zgen
 ################################################################
 
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
+if [[ ! -d ~/.zplug ]];then
+    echo "Installing zplug..."
+    git clone https://github.com/zplug/zplug ~/.zplug
+fi
 
-# Make sure GNU tools are used if they are present
-zplug "modules/gnu-utility", from:prezto
+export ZPLUG_HOME="${HOME}/.zplug"
+source "$ZPLUG_HOME/init.zsh"
 
 # plugins
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/pip", from:oh-my-zsh
-zplug "plugins/brew", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/gradle", from:oh-my-zsh
 zplug "plugins/history", from:oh-my-zsh
 zplug "plugins/autojump", from:oh-my-zsh
 zplug "plugins/rbenv", from:oh-my-zsh
@@ -91,11 +85,11 @@ zplug "plugins/command-not-found", from:oh-my-zsh
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-zplug "yannrouillard/mgar-zsh-plugin", from:github
+if [[ "${operating_system}" == "Darwin" ]]; then
+  zplug "plugins/brew", from:oh-my-zsh
+fi
 
-# Theme loading
-THEME=yannrouillard/bullet-train-oh-my-zsh-theme
-zplug "${THEME}", from:github, as:theme
+zplug "yannrouillard/bullet-train-oh-my-zsh-theme", from:github, as:theme
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -104,6 +98,5 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
-
 
 zplug load
