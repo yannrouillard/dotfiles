@@ -87,12 +87,15 @@ zplug "plugins/command-not-found", from:oh-my-zsh
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "mafredri/zsh-async", from:github
 
 if [[ "${operating_system}" == "Darwin" ]]; then
   zplug "plugins/brew", from:oh-my-zsh
+  zplug "yannrouillard/bullet-train-oh-my-zsh-theme", from:github, as:theme
+else
+  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 fi
 
-zplug "yannrouillard/bullet-train-oh-my-zsh-theme", from:github, as:theme
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
