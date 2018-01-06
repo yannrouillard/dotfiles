@@ -15,8 +15,10 @@ export TERM=xterm-256color
 alias ls="ls --color"
 
 ## Shell configuration
+HISTFILE=~/.zsh_history
 HISTSIZE=1000000000000000000
 SAVEHIST=${HISTSIZE}
+setopt appendhistory
 
 # Alt-Backspace mapping
 bindkey "^[d" backward-kill-word
