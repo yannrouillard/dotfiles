@@ -85,6 +85,7 @@ zplug "plugins/autojump", from:oh-my-zsh
 zplug "plugins/rbenv", from:oh-my-zsh
 zplug "plugins/command-not-found", from:oh-my-zsh
 zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 if [[ "${operating_system}" == "Darwin" ]]; then
