@@ -60,6 +60,7 @@ BULLETTRAIN_IS_SSH_CLIENT=${SSH_CONNECTION+true}
 # Pure
 PURE_GIT_UNTRACKED_DIRTY=0
 PURE_GIT_PULL=0
+PURE_PROMPT_SYMBOL=">"
 
 [[ ! -f "${HOME}/.zshrc.local" ]] || source "${HOME}/.zshrc.local"
 
@@ -68,41 +69,39 @@ PURE_GIT_PULL=0
 # Plugin loading through zgen
 ################################################################
 
-if [[ ! -d ~/.zplug ]];then
-    echo "Installing zplug..."
-    git clone https://github.com/zplug/zplug ~/.zplug
+if [[ ! -d ~/.zplugin ]];then
+    echo "Installing zplugin..."
+    mkdir -p ~/.zplugin
+    git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
 fi
 
-export ZPLUG_HOME="${HOME}/.zplug"
-source "$ZPLUG_HOME/init.zsh"
+### Added by Zplugin's installer
+source "${HOME}/.zplugin/bin/zplugin.zsh"
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin's installer chunk
 
 # plugins
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/pip", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/history", from:oh-my-zsh
-zplug "plugins/autojump", from:oh-my-zsh
-zplug "plugins/rbenv", from:oh-my-zsh
-zplug "plugins/command-not-found", from:oh-my-zsh
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "mafredri/zsh-async", from:github
+zplugin snippet OMZ::plugins/git/git.plugin.zsh
+zplugin snippet OMZ::plugins/pip/pip.plugin.zsh
+zplugin snippet OMZ::plugins/history/history.plugin.zsh
+zplugin snippet OMZ::plugins/fasd/fasd.plugin.zsh
+zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+zplugin light "zsh-users/zsh-completions"
+zplugin light "zsh-users/zsh-autosuggestions"
+zplugin ice wait'1' atload'_zsh_autosuggest_start'
+zplugin light "zsh-users/zsh-syntax-highlighting"
+zplugin load "mafredri/zsh-async"
 
 if [[ "${operating_system}" == "Darwin" ]]; then
-  zplug "plugins/brew", from:oh-my-zsh
-  zplug "yannrouillard/bullet-train-oh-my-zsh-theme", from:github, as:theme
+  zplugin light "yannrouillard/bullet-train-oh-my-zsh-theme"
 else
-  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+  zplugin ice pick"async.zsh" src"pure.zsh";
+  zplugin light sindresorhus/pure
 fi
 
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
+# Autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
 
-zplug load
+
