@@ -61,6 +61,9 @@ PURE_GIT_UNTRACKED_DIRTY=0
 PURE_GIT_PULL=0
 PURE_PROMPT_SYMBOL=">"
 
+# Autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
+
 [[ ! -f "${HOME}/.zshrc.local" ]] || source "${HOME}/.zshrc.local"
 
 
