@@ -1,5 +1,6 @@
 {
     "searchrg.enable": true,
     "editor.fontLigatures": true,
-    "editor.fontFamily": "Fira Code"
+    "editor.fontFamily": "Fira Code",
+    "editor.minimap.enabled": false
 }
