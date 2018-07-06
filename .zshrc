@@ -68,12 +68,6 @@ PURE_PROMPT_SYMBOL=">"
 # Plugin loading through zgen
 ################################################################
 
-if [[ ! -d ~/.zplugin ]];then
-    echo "Installing zplugin..."
-    mkdir -p ~/.zplugin
-    git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
-fi
-
 ### Added by Zplugin's installer
 source "${HOME}/.zplugin/bin/zplugin.zsh"
 autoload -Uz _zplugin
