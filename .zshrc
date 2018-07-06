@@ -92,15 +92,12 @@ zplugin ice wait'1' atload'_zsh_autosuggest_start'
 zplugin light "zsh-users/zsh-syntax-highlighting"
 zplugin load "mafredri/zsh-async"
 
+zplugin ice pick"async.zsh" src"pure.zsh";
+zplugin light sindresorhus/pure
+
 if [[ "${operating_system}" == "Darwin" ]]; then
-  zplugin light "yannrouillard/bullet-train-oh-my-zsh-theme"
-else
-  zplugin ice pick"async.zsh" src"pure.zsh";
-  zplugin light sindresorhus/pure
+  # zplugin light "yannrouillard/bullet-train-oh-my-zsh-theme"
+
+  # Use Gnu tools instead of BSD ones for standard commands
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:$PATH"
 fi
-
-
-# Autosuggestions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
-
-
