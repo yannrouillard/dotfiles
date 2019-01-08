@@ -28,6 +28,16 @@ bindkey "^[;3C" forward-word
 bindkey "^[;3D" backward-word
 
 #
+# Bash-like behavior
+#
+
+# Ctrl-U kill to current cursor instead of killing whole line
+bindkey \^U backward-kill-line
+
+# Split words on path delimieter by redefining WORDCHARS without '/'
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+#
 # Mapping for Mac OS X iterm2
 #
 
