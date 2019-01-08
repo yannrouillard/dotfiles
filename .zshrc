@@ -91,6 +91,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
 
 [[ ! -f "${HOME}/.zshrc.local" ]] || source "${HOME}/.zshrc.local"
 
+export ZSH_CACHE_DIR="${HOME}/.zsh-cache/"
 
 ################################################################
 # Plugin loading through zgen
