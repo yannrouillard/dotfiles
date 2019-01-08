@@ -103,6 +103,8 @@ autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin's installer chunk
 
+fasd_cache="$HOME/.fasd-init-cache"
+
 # plugins
 zplugin snippet OMZ::plugins/git/git.plugin.zsh
 zplugin snippet OMZ::plugins/pip/pip.plugin.zsh
