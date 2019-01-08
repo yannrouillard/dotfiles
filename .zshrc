@@ -19,13 +19,28 @@ HISTSIZE=1000000000000000000
 SAVEHIST=${HISTSIZE}
 setopt appendhistory
 
-# Alt-Backspace mapping
-bindkey "^[d" backward-kill-word
+## Keyboard mapping
+
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
 bindkey "^[;3C" forward-word
 bindkey "^[;3D" backward-word
+
+#
+# Mapping for Mac OS X iterm2
+#
+
+# Alt-Backspace mapping
+bindkey "^[d" backward-kill-word
+
+# Alt-arrows mapping
+bindkey "^[^[[C" forward-word
+bindkey "^[^[[D" backward-word
+
+# Cmd-backspace mapping
+bindkey "^[^H" backward-kill-line
+
 
 ## Theme configuration
 
