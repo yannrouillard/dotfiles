@@ -2,5 +2,6 @@
     "searchrg.enable": true,
     "editor.fontLigatures": true,
     "editor.fontFamily": "Fira Code",
+    "workbench.colorTheme": "Dracula",
     "editor.minimap.enabled": false
 }
