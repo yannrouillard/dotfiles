@@ -4,7 +4,7 @@
 
 function guess_os () {
   [[ ! -f "/etc/debian_version" ]] || { echo "debian"; return; }
-  [[ "$(uname)" == "Darwin" ]] || { echo "darwin"; return; }
+  [[ ! "$(uname)" == "Darwin" ]] || { echo "darwin"; return; }
   echo "unknown"
 }
 
