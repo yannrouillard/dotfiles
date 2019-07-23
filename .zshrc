@@ -56,8 +56,18 @@ bindkey \^U backward-kill-line
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 
+[[ ! -f "${FZF_ZSH_KEYBINDINGS}" ]] || source "${FZF_ZSH_KEYBINDINGS}"
 
+if binary_exist "${FD_BINARY}"; then
+  _fzf_compgen_path() {
+    "${FD_BINARY}" --hidden --follow --exclude ".git" . "$1"
+  }
 
+  # Use fd to generate the list for directory completion
+  _fzf_compgen_dir() {
+    "${FD_BINARY}" --type d --hidden --follow --exclude ".git" . "$1"
+  }
+fi
 
 
 ## Theme configuration

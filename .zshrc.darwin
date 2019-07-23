@@ -16,3 +16,6 @@ bindkey "^[^H" backward-kill-line
 # Use Gnu tools instead of BSD ones for standard commands
 PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:$PATH"
 
+FZF_ZSH_KEYBINDINGS="/usr/local/opt/fzf/shell/key-bindings.zsh"
+
+FD_BINARY="fd"

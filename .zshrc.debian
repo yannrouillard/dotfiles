@@ -5,3 +5,5 @@
 alias fd=fdfind
 
 FD_BINARY="fdfind"
+
+FZF_ZSH_KEYBINDINGS="/usr/share/doc/fzf/examples/key-bindings.zsh"
