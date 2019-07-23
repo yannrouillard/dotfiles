@@ -1,0 +1,18 @@
+
+#
+# Mapping for Mac OS X iterm2
+#
+
+# Alt-Backspace mapping
+bindkey "^[d" backward-kill-word
+
+# Alt-arrows mapping
+bindkey "^[^[[C" forward-word
+bindkey "^[^[[D" backward-word
+
+# Cmd-backspace mapping
+bindkey "^[^H" backward-kill-line
+
+# Use Gnu tools instead of BSD ones for standard commands
+PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:$PATH"
+

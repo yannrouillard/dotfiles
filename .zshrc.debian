@@ -1,0 +1,7 @@
+#
+# Debian specific settings
+#
+
+alias fd=fdfind
+
+FD_BINARY="fdfind"

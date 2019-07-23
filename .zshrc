@@ -1,8 +1,26 @@
 ################################################################
+# Useful functions
+################################################################
+
+function guess_os () {
+  [[ ! -f "/etc/debian_version" ]] || { echo "debian"; return; }
+  [[ "$(uname)" == "Darwin" ]] || { echo "darwin"; return; }
+  echo "unknown"
+}
+
+function binary_exist () {
+  local binary="$1"
+  type -t "${binary}" > /dev/null 2>&1 || return 1
+}
+
+################################################################
 # Zsh initialisation
 ################################################################
 
-operating_system=$(uname --operating-system 2>/dev/null || uname)
+operating_system=$(guess_os)
+os_zshrc=".zshrc.${operating_system}"
+
+! [[ -f "${os_zshrc}" ]] || source "${os_zshrc}"
 
 
 ################################################################
@@ -37,19 +55,9 @@ bindkey \^U backward-kill-line
 # Split words on path delimieter by redefining WORDCHARS without '/'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-#
-# Mapping for Mac OS X iterm2
-#
 
-# Alt-Backspace mapping
-bindkey "^[d" backward-kill-word
 
-# Alt-arrows mapping
-bindkey "^[^[[C" forward-word
-bindkey "^[^[[D" backward-word
 
-# Cmd-backspace mapping
-bindkey "^[^H" backward-kill-line
 
 
 ## Theme configuration
@@ -119,10 +127,3 @@ zplugin load "mafredri/zsh-async"
 
 zplugin ice pick"async.zsh" src"pure.zsh";
 zplugin light sindresorhus/pure
-
-if [[ "${operating_system}" == "Darwin" ]]; then
-  # zplugin light "yannrouillard/bullet-train-oh-my-zsh-theme"
-
-  # Use Gnu tools instead of BSD ones for standard commands
-  PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:$PATH"
-fi
