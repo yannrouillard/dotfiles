@@ -63,7 +63,7 @@ export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 [[ ! -f "${FZF_ZSH_KEYBINDINGS}" ]] || source "${FZF_ZSH_KEYBINDINGS}"
 
-export FZF_CTRL_R_OPTS='--height 40'
+export FZF_CTRL_R_OPTS='--height 80%'
 
 if binary_exist "${FD_BINARY}"; then
   _fzf_compgen_path() {
