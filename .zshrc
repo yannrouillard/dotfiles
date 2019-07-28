@@ -70,6 +70,16 @@ if binary_exist "${FD_BINARY}"; then
 fi
 
 
+#
+# Git configuration
+#
+
+for diff_enhancer in colordiff diff-so-fancy; do
+  binary_exist "${diff_enhancer}" || export GIT_PAGER="${diff_enhancer} | less --tabs=4 -RFX"
+done
+
+
+
 ## Theme configuration
 
 # Powerline

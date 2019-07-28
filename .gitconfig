@@ -2,7 +2,7 @@
 	name = Yann Rouillard
 	email = yann@pleiades.fr.eu.org
 [core]
-	pager = (colordiff || diff-so-fancy || diff) | less --tabs=4 -RFX
 	editor = vim
 [commit]
 	verbose = true
+
