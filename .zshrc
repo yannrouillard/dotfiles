@@ -10,7 +10,7 @@ function guess_os () {
 
 function binary_exist () {
   local binary="$1"
-  type -t "${binary}" > /dev/null 2>&1 || return 1
+  command -v "${binary}" &>/dev/null || return 1
 }
 
 ################################################################
