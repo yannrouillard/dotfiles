@@ -57,8 +57,13 @@ bindkey \^U backward-kill-line
 # Split words on path delimieter by redefining WORDCHARS without '/'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+#
+# FZF configuration
+#
 
 [[ ! -f "${FZF_ZSH_KEYBINDINGS}" ]] || source "${FZF_ZSH_KEYBINDINGS}"
+
+export FZF_CTRL_R_OPTS='--height 40'
 
 if binary_exist "${FD_BINARY}"; then
   _fzf_compgen_path() {
