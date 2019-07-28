@@ -73,11 +73,13 @@ fi
 #
 # Git configuration
 #
-
-for diff_enhancer in colordiff diff-so-fancy; do
-  binary_exist "${diff_enhancer}" || export GIT_PAGER="${diff_enhancer} | less --tabs=4 -RFX"
+for candidate in diff-so-fancy colordiff cat; do
+  if binary_exist "${candidate}"; then
+    GIT_PAGER="${candidate} | less --tabs=4 -RFX"
+    break
+  fi
 done
-
+export GIT_PAGER
 
 
 ## Theme configuration
