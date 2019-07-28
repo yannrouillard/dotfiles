@@ -35,7 +35,8 @@ alias ls="ls --color"
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000000000000000
 SAVEHIST=${HISTSIZE}
-setopt appendhistory
+setopt inc_append_history
+setopt share_history
 
 ## Keyboard mapping
 
