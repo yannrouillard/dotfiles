@@ -37,6 +37,7 @@ HISTSIZE=1000000000000000000
 SAVEHIST=${HISTSIZE}
 setopt inc_append_history
 setopt share_history
+setopt HIST_FIND_NO_DUPS
 
 ## Keyboard mapping
 
