@@ -138,25 +138,22 @@ export ZSH_CACHE_DIR="${HOME}/.zsh-cache/"
 # Plugin loading through zgen
 ################################################################
 
-### Added by Zplugin's installer
-source "${HOME}/.zplugin/bin/zplugin.zsh"
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
-### End of Zplugin's installer chunk
+source ~/.zplugin/bin/zplugin.zsh
 
 fasd_cache="$HOME/.fasd-init-cache"
 
 # plugins
-zplugin snippet OMZ::plugins/git/git.plugin.zsh
-zplugin snippet OMZ::plugins/pip/pip.plugin.zsh
-zplugin snippet OMZ::plugins/history/history.plugin.zsh
-zplugin snippet OMZ::plugins/fasd/fasd.plugin.zsh
-zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-zplugin light "zsh-users/zsh-completions"
-zplugin light "zsh-users/zsh-autosuggestions"
-zplugin ice wait'1' atload'_zsh_autosuggest_start'
-zplugin light "zsh-users/zsh-syntax-highlighting"
-zplugin load "mafredri/zsh-async"
+zplugin light zdharma/fast-syntax-highlighting
 
+zplugin ice wait'1' atload'_zsh_autosuggest_start'
+zplugin light "zsh-users/zsh-autosuggestions"
+zplugin snippet OMZ::plugins/fasd/fasd.plugin.zsh
+
+zplugin snippet OMZ::plugins/git/git.plugin.zsh
+zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+
+zplugin light "zsh-users/zsh-completions"
+
+zplugin load "mafredri/zsh-async"
 zplugin ice pick"async.zsh" src"pure.zsh";
 zplugin light sindresorhus/pure
