@@ -89,6 +89,10 @@ done
 export GIT_PAGER
 
 
+! binary_exist "exa" || alias ls=exa
+
+
+
 ## Theme configuration
 
 # Powerline
