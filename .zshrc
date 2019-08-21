@@ -91,6 +91,9 @@ export GIT_PAGER
 
 ! binary_exist "exa" || alias ls=exa
 
+alias l="ls"
+alias ll="ls -l"
+
 
 
 ## Theme configuration
