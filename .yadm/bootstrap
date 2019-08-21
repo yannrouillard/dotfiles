@@ -1,0 +1,80 @@
+#
+
+echo "Installing zplugin..."
+mkdir -p ~/.zplugin
+git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock tilesize 39
+defaults write com.apple.dock persistent-apps -array '()'
+
+defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTerm.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>";
+defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"; killall Dock
+
+brew cask install google-chrome
+
+brew cask install iterm2
+mkdir "$HOME/.iterm2"
+defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
+defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+
+
+brew cask install visual-studio-code
+code --install-extension vscodevim.vim
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.AppleMultitouchTrackpad showAppExposeGestureEnabled -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad -bool true
+
+brew install coreutils
+brew install findutils
+
+brew install zsh
+sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
+
+brew cask install numi
+
+brew cask install font-fira-code
+
+brew install node
+
+brew install ripgrep
+
+brew cask install spotify
+brew cask install torbrowser
+brew cask install dropbox
+brew cask install whatsapp
+
+brew install diff-so-fancy
+
+brew install mas
+
+# Install pocket
+mas install 568494494
+
+# Install Wunderlist
+mas install 410628904
+
+#brew cask install osxfuse
+#brew install ext4fuseo
+
+brew install ncdu
+
+#brew cask install openoffice
+
+brew cask install adobe-acrobat-reader
+
+brew cask install gimp
+
+#brew cask install horndis
+
+brew install python
+
+brew cask install yacreader
+
+brew cask install alfred
+
+brew cask install font-hack-nerd-font
+
+brew install fd
