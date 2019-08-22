@@ -1,80 +1,141 @@
-#
+#!/bin/bash
 
-echo "Installing zplugin..."
-mkdir -p ~/.zplugin
-git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+# Safety measures
+set -o errexit  # Leave immediately if a command returns an error
+set -o nounset  # Leave immediately if an unitialized value is used
+set -o pipefail # Leave immediately if a command fails in a pipe
 
-defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock tilesize 39
-defaults write com.apple.dock persistent-apps -array '()'
+#####################################################################
+# Helper functions
+#####################################################################
 
-defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTerm.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>";
-defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"; killall Dock
+function brew_pkg() {
+    local package="$1"
+    brew ls --versions "${package}" >/dev/null || brew install "${package}"
+}
 
-brew cask install google-chrome
+function brew_cask_pkg() {
+    local package="$1"
+    brew cask ls --versions "${package}" >/dev/null || brew cask install "${package}"
+}
 
-brew cask install iterm2
-mkdir "$HOME/.iterm2"
-defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
-defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+function mas_pkg() {
+    local package="$1"
+    local package_id
+    package_id=$(mas search "${package}" | grep " ${package} (" | awk '{ print $1 }' || true)
+    [[ -n "${package_id}" ]] || return 1
 
+    mas list | grep "^ ${package_id} " >/dev/null || mas install "${package_id}"
+}
 
-brew cask install visual-studio-code
-code --install-extension vscodevim.vim
-defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+function is_git_folder() {
+    [[ -d "${target_folder}" ]] || return 1
+    (cd "${target_folder}" && git rev-parse --git-dir 2>/dev/null) || return 1
+}
 
-defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-defaults write com.apple.AppleMultitouchTrackpad showAppExposeGestureEnabled -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad -bool true
+function git_source() {
+    local git_url="$1" target_folder="$2"
+    ! is_git_folder || return 0
+    mkdir -p "${target_folder}"
+    git clone "${git_url}" "${target_folder}"
+}
 
-brew install coreutils
-brew install findutils
+function user_shell() {
+    local requested_shell="$1"
+    local current_user_shell
 
-brew install zsh
-sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
+    current_user_shell=$(sudo dscl . -read "/Users/${USER}" UserShell | awk '{ print $2 }')
 
-brew cask install numi
+    [[ "${requested_shell}" != "${current_user_shell}" ]] || return 0
+    sudo dscl . -create "/Users/${USER}" UserShell "${requested_shell}"
+}
 
-brew cask install font-fira-code
+function bundle_cli_env() {
+    git_source "https://github.com/zdharma/zplugin.git" ~/.zplugin/bin
+    brew_pkg coreutils
+    brew_pkg findutils
+    brew_pkg zsh
+    brew_pkg ripgrep
+    brew_pkg ncdu
+    brew_pkg fd
+    brew_pkg exa
+    brew_pkg fzf
 
-brew install node
+    user_shell "/usr/local/bin/zsh"
+}
 
-brew install ripgrep
+function bundle_mac_desktop() {
+    defaults write com.apple.dock autohide -bool true
+    defaults write com.apple.dock tilesize 39
+    defaults write com.apple.dock persistent-apps -array '()'
 
-brew cask install spotify
-brew cask install torbrowser
-brew cask install dropbox
-brew cask install whatsapp
+    brew_cask_pkg iterm2
+    mkdir -p "$HOME/.iterm2"
+    defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
+    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 
-brew install diff-so-fancy
+    brew_cask_pkg google-chrome
+    brew_cask_pkg firefox
 
-brew install mas
+    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+    defaults write com.apple.AppleMultitouchTrackpad showAppExposeGestureEnabled -bool true
+    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad -bool true
+    brew_cask_pkg numi
+    brew_cask_pkg font-fira-code
+    brew_cask_pkg spotify
+    brew_cask_pkg tor-browser
+    brew_cask_pkg dropbox
+    brew_cask_pkg whatsapp
+    brew_cask_pkg adobe-acrobat-reader
+    brew_cask_pkg gimp
+    brew_cask_pkg alfred
+    brew_cask_pkg bettertouchtool
+    # brew_cask_pkg elmedia-player
+    brew tap homebrew/cask-fonts
+    brew_cask_pkg font-hack-nerd-font
+    brew_cask_pkg transmission
 
-# Install pocket
-mas install 568494494
+    brew_pkg mas
 
-# Install Wunderlist
-mas install 410628904
+    mas_pkg "Be Focused Pro - Focus Timer"
+    mas_pkg "Elmedia:universal video player"
+    mas_pkg "Wunderlist: To-Do List & Tasks"
 
-#brew cask install osxfuse
-#brew install ext4fuseo
+    brew tap d12frosted/emacs-plus
+    brew_pkg emacs-plus
+}
 
-brew install ncdu
+function bundle_achilles() {
+    brew_cask_pkg pritunl
+}
 
-#brew cask install openoffice
+function bundle_devel_common() {
+    brew_pkg diff-so-fancy
+    brew_cask_pkg visual-studio-code
+    code --install-extension shan.code-settings-sync
+    defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+}
 
-brew cask install adobe-acrobat-reader
+function bundle_devel_python() {
+    brew_pkg python
+}
 
-brew cask install gimp
+function bundle_devel_node() {
+    brew_pkg node
+}
 
-#brew cask install horndis
+function bundle_devel_shell() {
+    brew_pkg shellcheck
+}
 
-brew install python
+#####################################################################
+# Main code
+#####################################################################
 
-brew cask install yacreader
+available_targets=("cli_env" "mac_desktop" "devel_common")
 
-brew cask install alfred
+[[ -z "$*" ]] || available_targets=("$@")
 
-brew cask install font-hack-nerd-font
-
-brew install fd
+for target in "${available_targets[@]}"; do
+    eval "bundle_${target}"
+done
