@@ -57,6 +57,9 @@ bindkey \^U backward-kill-line
 # Split words on path delimieter by redefining WORDCHARS without '/'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+# Fast Directory jumping
+[[ ! -f "${Z_LOCATION}" ]] || source "${Z_LOCATION}"
+
 #
 # FZF configuration
 #
@@ -94,6 +97,7 @@ export GIT_PAGER
 alias l="ls"
 alias ll="ls -l"
 
+! binary_exist "bat" || alias cat=bat
 
 
 ## Theme configuration
@@ -165,3 +169,11 @@ autoload -Uz compinit
 compinit
 
 zplugin cdreplay -q
+
+# add Pulumi to the PATH
+export PATH=$PATH:$HOME/.pulumi/bin
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

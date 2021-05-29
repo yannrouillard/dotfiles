@@ -19,3 +19,6 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/li
 FZF_ZSH_KEYBINDINGS="/usr/local/opt/fzf/shell/key-bindings.zsh"
 
 FD_BINARY="fd"
+
+Z_LOCATION="/usr/local/etc/profile.d/z.sh"
+
