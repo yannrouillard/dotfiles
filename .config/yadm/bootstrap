@@ -55,11 +55,16 @@ function bundle_cli_env() {
     brew_pkg coreutils
     brew_pkg findutils
     brew_pkg zsh
+    brew_pkg bash
     brew_pkg ripgrep
     brew_pkg ncdu
+    brew_pkg bat
     brew_pkg fd
     brew_pkg exa
     brew_pkg fzf
+    brew_pkg vim
+    brew_pkg jq
+    brew_pkg z
 
     user_shell "/usr/local/bin/zsh"
 }
@@ -90,10 +95,11 @@ function bundle_mac_desktop() {
     brew_cask_pkg gimp
     brew_cask_pkg alfred
     brew_cask_pkg bettertouchtool
-    # brew_cask_pkg elmedia-player
+    brew_cask_pkg vlc
     brew tap homebrew/cask-fonts
     brew_cask_pkg font-hack-nerd-font
     brew_cask_pkg transmission
+    brew_cask_pkg protonvpn
 
     brew_pkg mas
 
@@ -103,10 +109,23 @@ function bundle_mac_desktop() {
 
     brew tap d12frosted/emacs-plus
     brew_pkg emacs-plus
+
+    brew_cask_pkg wondershare-filmora
+    brew_cask_pkg calibre
+    brew_cask_pkg send-to-kindle
 }
 
 function bundle_achilles() {
+    brew_cask_pkg 1password7
     brew_cask_pkg pritunl
+    brew_pkg awscli
+    brew_pkg vault
+    brew_pkg terraform tflint
+    brew_pkg python@2
+    pip install dogpush
+    mask_pkg "Microsoft Remote Desktop 10"
+    brew tap mongodb/brew
+    brew_pkg mongodb-community@4.2
 }
 
 function bundle_devel_common() {
@@ -114,10 +133,13 @@ function bundle_devel_common() {
     brew_cask_pkg visual-studio-code
     code --install-extension shan.code-settings-sync
     defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+    brew_cask_pkg docker
 }
 
 function bundle_devel_python() {
     brew_pkg python
+    brew_pkg pipenv
 }
 
 function bundle_devel_node() {
@@ -126,6 +148,15 @@ function bundle_devel_node() {
 
 function bundle_devel_shell() {
     brew_pkg shellcheck
+}
+
+function bundle_android() {
+    brew_cask_pkg android-platform-tools
+}
+
+function bundle_hacker() {
+    brew_cask_pkg wireshask
+    brew_pkg spoof-mac
 }
 
 #####################################################################
