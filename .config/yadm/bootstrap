@@ -81,6 +81,7 @@ function bundle_mac_desktop() {
 
     brew_cask_pkg google-chrome
     brew_cask_pkg firefox
+    brew_cask_pkg 1password7
 
     defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
     defaults write com.apple.AppleMultitouchTrackpad showAppExposeGestureEnabled -bool true
@@ -107,9 +108,6 @@ function bundle_mac_desktop() {
     mas_pkg "Elmedia:universal video player"
     mas_pkg "Wunderlist: To-Do List & Tasks"
 
-    brew tap d12frosted/emacs-plus
-    brew_pkg emacs-plus
-
     brew_cask_pkg wondershare-filmora
     brew_cask_pkg calibre
     brew_cask_pkg send-to-kindle
@@ -131,7 +129,6 @@ function bundle_achilles() {
 function bundle_devel_common() {
     brew_pkg diff-so-fancy
     brew_cask_pkg visual-studio-code
-    code --install-extension shan.code-settings-sync
     defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
     brew_cask_pkg docker
